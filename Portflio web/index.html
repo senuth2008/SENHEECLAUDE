@@ -632,6 +632,79 @@ footer p {
   header { padding: 14px 4%; }
   nav { gap: 20px; }
 }
+
+.electric {
+  position: relative;
+  display: inline-block;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--cyan);
+}
+
+/* ⚡ ELECTRIC FIELD BASE */
+.electric::before {
+  content: "SEN_HEE";
+  position: absolute;
+  inset: 0;
+  color: var(--cyan);
+  opacity: 0;
+  filter: blur(8px);
+  transition: 0.2s;
+}
+
+/* ⚡ CURSOR ENERGY FIELD */
+.electric::after {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  background: radial-gradient(
+    circle at var(--cx) var(--cy),
+    rgba(0,207,255,0.25),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+/* ⚡ ACTIVE STATE */
+#about:hover .electric {
+  color: var(--cyan);
+  text-shadow:
+    0 0 5px var(--cyan),
+    0 0 15px var(--cyan),
+    0 0 40px rgba(0,207,255,0.8),
+    0 0 80px rgba(0,207,255,0.6);
+}
+
+/* glow boost */
+#about:hover .electric::before {
+  opacity: 1;
+  filter: blur(14px);
+}
+
+/* ⚡ CURSOR REACTION */
+#about:hover .electric::after {
+  opacity: 1;
+}
+
+/* ⚡ ELECTRIC FLICKER (real feel) */
+#about:hover .electric {
+  animation: electricFlicker 0.12s infinite alternate;
+}
+
+@keyframes electricFlicker {
+  0% {
+    text-shadow:
+      0 0 6px var(--cyan),
+      0 0 12px var(--cyan);
+  }
+  100% {
+    text-shadow:
+      0 0 10px var(--cyan),
+      0 0 30px rgba(0,207,255,0.9),
+      0 0 60px rgba(0,207,255,0.7);
+  }
+}
 </style>
 </head>
 <body>
@@ -668,9 +741,10 @@ footer p {
 <!-- HERO -->
 <section id="about">
   <p class="hero-eyebrow">Video Editor · Visual Storyteller</p>
-  <h1 class="hero-title">
-    Hi, I'm<br><span>Sen_Hee</span>
-  </h1>
+ <h1 class="hero-title">
+  Hi, I'm<br>
+  <span class="electric">SEN_HEE</span>
+</h1>
   <p class="hero-sub">I craft videos that grab attention, drive results, and make your brand completely unforgettable.</p>
   <div class="hero-actions">
     <a href="#contact" class="btn-primary">
@@ -821,8 +895,15 @@ const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
 document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+  mx = e.clientX; 
+  my = e.clientY;
+
+  cur.style.left = mx + 'px'; 
+  cur.style.top = my + 'px';
+
+  // ⚡ NEW: send cursor position to CSS
+  document.documentElement.style.setProperty('--cx', mx + 'px');
+  document.documentElement.style.setProperty('--cy', my + 'px');
 });
 function animRing() {
   rx += (mx - rx) * 0.12;
