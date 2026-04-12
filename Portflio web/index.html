@@ -233,11 +233,7 @@ nav a:hover::after { transform: scaleX(1); }
   margin-bottom: 12px;
   opacity: 0;
   animation: fadeUp 0.9s 1.9s ease forwards;
-}
-.hero-title span {
-  display: block;
-  -webkit-text-stroke: 1.5px var(--cyan);
-  color: transparent;
+
 }
 .hero-sub {
   max-width: 560px;
@@ -880,27 +876,77 @@ window.addEventListener('load', () => {
   }, 1800);
 });
 
-/* ── PARTICLES ── */
+/* ── ADVANCED PARTICLES ── */
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
-canvas.width = innerWidth; canvas.height = innerHeight;
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
 window.addEventListener('resize', () => {
-  canvas.width = innerWidth; canvas.height = innerHeight;
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
 });
+
+/* Cursor tracking */
+let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+document.addEventListener('mousemove', e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+/* Scroll speed tracking */
+let lastScroll = window.scrollY;
+let scrollVelocity = 0;
+
+window.addEventListener('scroll', () => {
+  const current = window.scrollY;
+  scrollVelocity = current - lastScroll;
+  lastScroll = current;
+});
+
+/* Particle class */
 class P {
   constructor() { this.reset(); }
+
   reset() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.r = Math.random() * 1.5 + 0.3;
-    this.sx = (Math.random() - 0.5) * 0.35;
-    this.sy = (Math.random() - 0.5) * 0.35;
-    this.a = Math.random() * 0.3 + 0.05;
+
+    this.baseSpeedX = (Math.random() - 0.5) * 0.3;
+    this.baseSpeedY = (Math.random() - 0.5) * 0.3;
+
+    this.r = Math.random() * 1.8 + 0.4;
+    this.a = Math.random() * 0.4 + 0.05;
   }
+
   update() {
-    this.x += this.sx; this.y += this.sy;
-    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    /* Cursor attraction */
+    let dx = mouse.x - this.x;
+    let dy = mouse.y - this.y;
+    let dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < 140) {
+      this.x -= dx * 0.0025;
+      this.y -= dy * 0.0025;
+    }
+
+    /* Scroll speed influence */
+    this.y += scrollVelocity * 0.08;
+
+    /* Base drift */
+    this.x += this.baseSpeedX;
+    this.y += this.baseSpeedY;
+
+    /* Reset if out */
+    if (
+      this.x < 0 || this.x > canvas.width ||
+      this.y < 0 || this.y > canvas.height
+    ) {
+      this.reset();
+    }
   }
+
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
@@ -908,10 +954,22 @@ class P {
     ctx.fill();
   }
 }
-const parts = Array.from({length: 160}, () => new P());
+
+/* Increase particle count smartly */
+const particleCount = Math.min(280, Math.floor(window.innerWidth * 0.18));
+const parts = Array.from({ length: particleCount }, () => new P());
+
 (function tick() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  parts.forEach(p => { p.update(); p.draw(); });
+
+  parts.forEach(p => {
+    p.update();
+    p.draw();
+  });
+
+  /* smooth scroll decay */
+  scrollVelocity *= 0.9;
+
   requestAnimationFrame(tick);
 })();
 
