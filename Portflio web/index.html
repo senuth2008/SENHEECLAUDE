@@ -28,6 +28,70 @@ body {
   cursor: none;
 }
 
+.experience-section {
+  padding: 80px 4%;
+  position: relative;
+  z-index: 2;
+}
+
+.experience-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.experience-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.experience-sub {
+  color: var(--muted);
+  max-width: 700px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.exp-card {
+  padding: 18px;
+  border: 1px solid rgba(0,207,255,0.12);
+  border-radius: 10px;
+  background: rgba(13,17,32,0.4);
+  transition: 0.25s ease;
+}
+
+.exp-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,207,255,0.4);
+}
+
+.exp-card h3 {
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: var(--cyan);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.exp-card p {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .exp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── CUSTOM CURSOR ── */
 #cursor {
   position: fixed;
@@ -685,10 +749,7 @@ footer p {
     <img src="logo.png" alt="Sen_Hee" onerror="this.style.display='none'; document.querySelector('.logo-fallback').style.display='block'">
     <span class="logo-fallback">SEN_HEE</span>
   </div>
-  <nav>
-    <a href="#work">Work</a>
-    <a href="#contact" class="nav-cta">Hire me</a>
-  </nav>
+
 </header>
 
 <!-- HERO -->
@@ -698,17 +759,27 @@ footer p {
   Hi, I'm<br>
   <span class="electric">SEN_HEE</span>
 </h1>
-  <p class="hero-sub">I craft videos that grab attention, drive results, and make your brand completely unforgettable.</p>
+  <p class="hero-sub">From short-form content to full-length videos, I create edits that capture attention, hold viewers, and drive results.</p>
   <div class="hero-actions">
-    <a href="#contact" class="btn-primary">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-      Hire me
-    </a>
-    <a href="#work" class="btn-ghost">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-      Watch showreel
-    </a>
-  </div>
+
+
+  <a href="#showreel" class="btn-ghost">
+    Showreel
+  </a>
+
+  <a href="#work" class="btn-ghost">
+    Selected Work
+  </a>
+
+  <a href="#experience" class="btn-ghost">
+    Experience
+  </a>
+
+  <a href="#contact" class="btn-primary">
+    Contact
+  </a>
+
+</div>
   <div class="scroll-hint">
     <span>Scroll</span>
     <div class="scroll-line"></div>
@@ -716,7 +787,7 @@ footer p {
 </section>
 
 <!-- SHOWREEL -->
-<section id="work">
+<section id="showreel">
   <div class="showreel-wrap">
     <div class="showreel-header">
       <div>
@@ -738,8 +809,9 @@ footer p {
 </div>
 </section>
 
+
 <!-- SELECTED WORK -->
-<section class="works-section">
+<section id="work" class="works-section">
   <div class="works-wrap">
     <p class="section-label">Portfolio</p>
     <h2 class="works-title">Selected Work</h2>
@@ -805,6 +877,50 @@ footer p {
     </div>
   </div>
 </section>
+
+<!-- Experiences -->
+<section id="experience" class="experience-section">
+
+  <div class="experience-wrap">
+
+    <p class="section-label">Experience</p>
+
+    <h2 class="experience-title">
+      Focused on editing that performs, not just looks good.
+    </h2>
+
+    <p class="experience-sub">
+      I specialize in short-form content, ads, and long-form edits designed for attention, retention, and conversion across social platforms.
+    </p>
+
+    <div class="exp-grid">
+
+      <div class="exp-card">
+        <h3>Video Focus</h3>
+        <p>Short-form ads, Reels, TikTok content, long-form edits</p>
+      </div>
+
+      <div class="exp-card">
+        <h3>Style</h3>
+        <p>Fast-paced, retention-driven storytelling with clean motion design</p>
+      </div>
+
+      <div class="exp-card">
+        <h3>Experience</h3>
+        <p>Freelance editor working on social media and brand content projects</p>
+      </div>
+
+      <div class="exp-card">
+        <h3>Goal</h3>
+        <p>Help brands and creators turn attention into growth</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
 
 <!-- VIDEO POPUP -->
 <div class="video-popup" id="popup">
